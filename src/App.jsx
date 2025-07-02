@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
 import { sortPlacesByDistance } from "./loc.js";
 
@@ -58,7 +58,8 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
+  // NOTE: useCallback uzywa się do zapamietania funckji, aby nie renderowala sie ponowni, uzywa sie tego gdy do useEffect doda się fcr jak depencies
+  const handleRemovePlace = useCallback(function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
@@ -69,7 +70,7 @@ function App() {
       "selectedPlaces",
       JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current))
     );
-  }
+  }, []);
 
   return (
     <>
